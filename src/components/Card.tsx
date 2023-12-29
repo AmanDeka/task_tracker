@@ -1,15 +1,13 @@
 import React, { FunctionComponent } from "react";
 import { useState } from "react";
-import Task from './Task';
+import Task,{TaskProps} from './Task';
 
-type task_item = {
-  text:string
-};
+
 
 const Card:FunctionComponent = () => {
     const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false);
     const [title, setTitle] = useState<string>('Card Title');
-    const [tasks, setTasks] = useState<task_item[]>([]);
+    const [tasks, setTasks] = useState<TaskProps[]>([]);
     const [newTask, setNewTask] = useState<string>('');
   
     const handleTitleClick = () => {
@@ -26,7 +24,7 @@ const Card:FunctionComponent = () => {
   
     const addTask = () => {
       if (newTask.trim() !== '') {
-        setTasks([...tasks, { text: newTask } ]);
+        setTasks([...tasks, { title:newTask,body: newTask } ]);
         setNewTask('');
       }
     };
