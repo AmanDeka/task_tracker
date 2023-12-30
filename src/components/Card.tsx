@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { useState } from "react";
 import Task,{TaskProps} from './Task';
+import '../stylesheets/Card.css';
 
 
 
@@ -9,6 +10,10 @@ const Card:FunctionComponent = () => {
     const [title, setTitle] = useState<string>('Card Title');
     const [tasks, setTasks] = useState<TaskProps[]>([]);
     const [newTask, setNewTask] = useState<string>('');
+
+    const onDelete = (taskId:string) => {
+
+    }
   
     const handleTitleClick = () => {
       setIsEditingTitle(true);
@@ -24,7 +29,7 @@ const Card:FunctionComponent = () => {
   
     const addTask = () => {
       if (newTask.trim() !== '') {
-        setTasks([...tasks, { title:newTask,body: newTask } ]);
+        setTasks([...tasks, { id:"1",title:newTask,body: newTask,onDelete:onDelete } ]);
         setNewTask('');
       }
     };

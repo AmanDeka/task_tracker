@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 export interface TaskProps {
-    title: string;
-    body: string;
+  id: string;
+  title: string;
+  body: string;
+  onDelete: (taskId: string) => void;
 }
 
 const Task: React.FC<{task:TaskProps}> = ({ task }) => {
@@ -13,6 +15,7 @@ const Task: React.FC<{task:TaskProps}> = ({ task }) => {
   const [linkInput, setLinkInput] = useState('');
   const [isAddingLink, setIsAddingLink] = useState(false);
   const linkInputRef = useRef<HTMLInputElement>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleTitleClick = () => {
     setIsEditingTitle(true);
@@ -47,25 +50,46 @@ const Task: React.FC<{task:TaskProps}> = ({ task }) => {
     setIsAddingLink(false);
   };
 
+  const handleDeleteTask = () => {
+    task.onDelete(task.id);
+  };
+
   useEffect(() => {
     if (isAddingLink) {
       linkInputRef.current?.focus();
     }
   }, [isAddingLink]);
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   return (
     <div className="task">
-      <div className="task-title" onClick={handleTitleClick}>
-        {isEditingTitle ? (
-          <input
-            type="text"
-            value={title}
-            onChange={handleTitleChange}
-            onBlur={handleTitleBlur}
-          />
-        ) : (
-          <div>{title}</div>
-        )}
+      <div className="task-header">
+        <div className="task-title" onClick={handleTitleClick}>
+          {isEditingTitle ? (
+            <input
+              type="text"
+              value={title}
+              onChange={handleTitleChange}
+              onBlur={handleTitleBlur}
+            />
+          ) : (
+            <div>{title}</div>
+          )}
+        </div>
+        <div className="task-actions">
+          <div className={`dropdown ${isDropdownOpen ? 'open' : ''}`}>
+            <button className="dropbtn" onClick={toggleDropdown}>
+              Actions
+            </button>
+            <div className="dropdown-content">
+              <button onClick={handleDeleteTask}>Delete</button>
+              <button onClick={addLink}>Add Link</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="task-body">
         <textarea
@@ -73,20 +97,8 @@ const Task: React.FC<{task:TaskProps}> = ({ task }) => {
           value={body}
           onChange={handleBodyChange}
         />
-        <div className="task-links">
-          <p>Links:</p>
-          <ul>
-            {links.map((link, index) => (
-              <li key={index}>
-                <a href={`#${link}`} target="_blank" rel="noopener noreferrer">
-                  {link}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-        {isAddingLink && (
-          <div className="link-input">
+        <div className="link-input">
+          {isAddingLink && (
             <input
               ref={linkInputRef}
               type="text"
@@ -95,9 +107,20 @@ const Task: React.FC<{task:TaskProps}> = ({ task }) => {
               onChange={handleLinkInputChange}
               onBlur={handleLinkInputBlur}
             />
-          </div>
-        )}
-        <button onClick={addLink}>Add Link</button>
+          )}
+        </div>
+      </div>
+      <div className="task-links">
+        <p>Links:</p>
+        <ul>
+          {links.map((link, index) => (
+            <li key={index}>
+              <a href={`#${link}`} target="_blank" rel="noopener noreferrer">
+                {link}
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
