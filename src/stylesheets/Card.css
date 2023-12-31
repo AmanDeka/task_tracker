@@ -2,20 +2,22 @@
 
 .card {
     width: 300px;
-    border: 2px solid #000;
+    border: 1px solid #FDF7E4;
     border-radius: 8px;
-    background-color: #f2f2f2; /* Light gray background for the Card component */
+    background-color:#FDF7E4; /* Light gray background for the Card component */
     padding: 16px;
     margin-bottom: 16px;
     display: inline-block;
   }
   
   .task {
+    margin-top:10px;
     margin-bottom: 8px;
-    background-color: #fff; /* White background for the Task component */
+    background-color: #FAEED1; /* White background for the Task component */
     padding: 8px;
     border-radius: 4px;
   }
+
   
   .task-header {
     display: flex;
@@ -38,11 +40,20 @@
   
   .dropbtn {
     cursor: pointer;
-    background-color: #61dafb;
+    background-color: #FAEED1;
     color: #fff;
     border: none;
-    padding: 8px 16px;
+    padding: 5px;
+    margin: 5px;
     border-radius: 4px;
+  }
+
+  .dropbtn:hover{
+    background-color: #DED0B6;
+  }
+
+  .dropicon{
+    width:20px;
   }
   
   .dropdown-content {
@@ -75,9 +86,9 @@
   
   /* Style for unfocused textarea */
   .task-body textarea {
-    width: 100%;
+    width: 90%;
     border: none;
-    background-color: #fff; /* White background for the Task component textarea */
+    background-color: #FAEED1; /* White background for the Task component textarea */
     padding: 8px;
     border-radius: 4px;
     resize: none;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import icon from "../icons/dots.png";
 
 export interface TaskProps {
   id: string;
@@ -81,8 +82,9 @@ const Task: React.FC<{task:TaskProps}> = ({ task }) => {
         </div>
         <div className="task-actions">
           <div className={`dropdown ${isDropdownOpen ? 'open' : ''}`}>
+            
             <button className="dropbtn" onClick={toggleDropdown}>
-              Actions
+              <img className = "dropicon" src = {icon}/>
             </button>
             <div className="dropdown-content">
               <button onClick={handleDeleteTask}>Delete</button>
@@ -111,7 +113,6 @@ const Task: React.FC<{task:TaskProps}> = ({ task }) => {
         </div>
       </div>
       <div className="task-links">
-        <p>Links:</p>
         <ul>
           {links.map((link, index) => (
             <li key={index}>

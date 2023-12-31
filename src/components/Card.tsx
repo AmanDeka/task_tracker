@@ -10,10 +10,12 @@ const Card:FunctionComponent = () => {
     const [title, setTitle] = useState<string>('Card Title');
     const [tasks, setTasks] = useState<TaskProps[]>([]);
     const [newTask, setNewTask] = useState<string>('');
+    const [taskIdCounter, setTaskIdCounter] = useState<number>(1);
 
-    const onDelete = (taskId:string) => {
-
-    }
+    const onDelete = (taskId: string) => {
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+    };
+    
   
     const handleTitleClick = () => {
       setIsEditingTitle(true);
@@ -28,9 +30,11 @@ const Card:FunctionComponent = () => {
     };
   
     const addTask = () => {
+      const newTaskId = `task_${taskIdCounter}`;
       if (newTask.trim() !== '') {
-        setTasks([...tasks, { id:"1",title:newTask,body: newTask,onDelete:onDelete } ]);
+        setTasks([...tasks, { id:newTaskId,title:newTask,body: newTask,onDelete:onDelete } ]);
         setNewTask('');
+        setTaskIdCounter((prevCounter) => prevCounter + 1);
       }
     };
   
