@@ -5,6 +5,7 @@ export interface TaskProps {
   id: string;
   title: string;
   body: string;
+  type:'normal';
   onDelete: (taskId: string) => void;
 }
 
