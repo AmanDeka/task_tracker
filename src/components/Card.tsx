@@ -5,12 +5,17 @@ import Task, { TaskProps } from './Task';
 import CountingTask, { CountingTaskProps } from './CountingTask';
 import '../stylesheets/Card.css';
 
+export interface CardProps{
+  id:string;
+  title:string;
+  tasks:(TaskProps | CountingTaskProps)[];
+};
 
 
-const Card: FunctionComponent = () => {
+const Card: FunctionComponent<{card:CardProps}> = ({card}) => {
   const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>('Card Title');
-  const [tasks, setTasks] = useState<(TaskProps | CountingTaskProps)[]>([]);
+  const [title, setTitle] = useState<string>(card.title);
+  const [tasks, setTasks] = useState<(TaskProps | CountingTaskProps)[]>(card.tasks);
   const [newTask, setNewTask] = useState<string>('');
   const [taskIdCounter, setTaskIdCounter] = useState<number>(1);
   const [isAddingTask, setIsAddingTask] = useState<boolean>(false);

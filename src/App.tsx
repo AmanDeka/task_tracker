@@ -1,18 +1,31 @@
-import React, { useState } from 'react';
-import Card from './components/Card'
+// App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import DailyTasksPage from './pages/DailyTasksPage';
 
-// Task component for individual tasks
-
-// Card component to manage tasks
-
-
-// App component
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Card />
-    </div>
+    <Router>
+      <div className="app">
+        <nav className="side-menu">
+          <ul>
+            <li>
+              <Link to="/">Daily Tasks</Link>
+            </li>
+            <li>
+              <Link to="/other">Other Page</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <main className="content">
+          <Routes>
+            <Route path="/" element={<DailyTasksPage />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
