@@ -1,6 +1,6 @@
 // CountingTask.js
 
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 
 export interface CountingTaskProps {
   id: string;
@@ -13,11 +13,12 @@ export interface CountingTaskProps {
   onTargetCountChange: (newTargetCount: number) => void;
 }
 
-const CountingTask: React.FC<{ task: CountingTaskProps }> = ({ task }) => {
+const CountingTask: React.FC<{ task: CountingTaskProps;show:boolean }> = ({ task,show }) => {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [isEditingTargetCount, setIsEditingTargetCount] = useState(false);
   const [targetCount, setTargetCount] = useState(task.targetCount);
+  const [isTaskDone,setIsTaskDone] = useState<boolean>(false);
 
 
   const handleTitleClick = () => {
@@ -57,8 +58,17 @@ const CountingTask: React.FC<{ task: CountingTaskProps }> = ({ task }) => {
     return Math.min((task.currentCount / task.targetCount) * 100, 100);
   };
 
+  useEffect(() => {
+    if (task.currentCount === task.targetCount) {
+      setIsTaskDone(true);
+      // Handle logic for a completed counting task (e.g., change styles, update database, etc.)
+    } else {
+      setIsTaskDone(false);
+    }
+  }, [task.currentCount, task.targetCount]);
+
   return (
-    <div className="task">
+    <div className={`task ${isTaskDone && !show ? 'hidden' : ''} ${isTaskDone ? 'completed' : ''}`}>
       <div className="task-header">
         <div className="task-title" onClick={handleTitleClick}>
           {isEditingTitle ? (

@@ -10,7 +10,7 @@ export interface TaskProps {
   onDelete: (taskId: string) => void;
 }
 
-const Task: React.FC<{ task: TaskProps; onDelete: (taskId: string) => void; show: boolean }> = ({ task, show }) => {
+const Task: React.FC<{ task: TaskProps; show: boolean }> = ({ task, show }) => {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [body, setBody] = useState(task.body);

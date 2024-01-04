@@ -159,9 +159,9 @@ const Card: FunctionComponent<{card:CardProps}> = ({card}) => {
         {tasks.map((task) => (
           <React.Fragment key={task.id}>
             {task.type === 'normal' && 'body' in task ? (
-               <Task task={task as TaskProps} onDelete={onDelete}  show={showDoneTasks}/>
+               <Task task={task as TaskProps} show={showDoneTasks}/>
             ) : task.type === 'counting' && 'currentCount' in task ? (
-              <CountingTask task={task as CountingTaskProps} />
+              <CountingTask task={task as CountingTaskProps} show={showDoneTasks} />
             ) : null}
           </React.Fragment>
         ))}
