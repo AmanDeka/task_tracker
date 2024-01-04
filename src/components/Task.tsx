@@ -5,11 +5,12 @@ export interface TaskProps {
   id: string;
   title: string;
   body: string;
-  type:'normal';
+  type: 'normal';
+  done: boolean;
   onDelete: (taskId: string) => void;
 }
 
-const Task: React.FC<{task:TaskProps}> = ({ task }) => {
+const Task: React.FC<{ task: TaskProps; onDelete: (taskId: string) => void; show: boolean }> = ({ task, show }) => {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [body, setBody] = useState(task.body);
@@ -18,6 +19,7 @@ const Task: React.FC<{task:TaskProps}> = ({ task }) => {
   const [isAddingLink, setIsAddingLink] = useState(false);
   const linkInputRef = useRef<HTMLInputElement>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isTaskDone, setIsTaskDone] = useState(task.done);
 
   const handleTitleClick = () => {
     setIsEditingTitle(true);
@@ -56,18 +58,28 @@ const Task: React.FC<{task:TaskProps}> = ({ task }) => {
     task.onDelete(task.id);
   };
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleTaskDoneChange = () => {
+    setIsTaskDone(!isTaskDone);
+  };
+
+  useEffect(() => {
+    if (isTaskDone) {
+      // Handle logic for a completed task (e.g., change styles, update database, etc.)
+    }
+  }, [isTaskDone]);
+
   useEffect(() => {
     if (isAddingLink) {
       linkInputRef.current?.focus();
     }
   }, [isAddingLink]);
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
   return (
-    <div className="task">
+    <div className={`task ${isTaskDone && !show ? 'hidden' : ''} ${isTaskDone ? 'completed' : ''}`}>
       <div className="task-header">
         <div className="task-title" onClick={handleTitleClick}>
           {isEditingTitle ? (
@@ -81,11 +93,21 @@ const Task: React.FC<{task:TaskProps}> = ({ task }) => {
             <div>{title}</div>
           )}
         </div>
+
+
+
         <div className="task-actions">
+          <input
+            type="checkbox"
+            checked={isTaskDone}
+            onChange={handleTaskDoneChange}
+            className="done-checkbox"
+          />
+
           <div className={`dropdown ${isDropdownOpen ? 'open' : ''}`}>
-            
+
             <button className="dropbtn" onClick={toggleDropdown}>
-              <img className = "dropicon" src = {icon}/>
+              <img className="dropicon" src={icon} />
             </button>
             <div className="dropdown-content">
               <button onClick={handleDeleteTask}>Delete</button>

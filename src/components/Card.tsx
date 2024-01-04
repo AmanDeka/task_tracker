@@ -8,6 +8,7 @@ import '../stylesheets/Card.css';
 export interface CardProps{
   id:string;
   title:string;
+  showDoneTasks:boolean;
   tasks:(TaskProps | CountingTaskProps)[];
 };
 
@@ -20,6 +21,7 @@ const Card: FunctionComponent<{card:CardProps}> = ({card}) => {
   const [taskIdCounter, setTaskIdCounter] = useState<number>(1);
   const [isAddingTask, setIsAddingTask] = useState<boolean>(false);
   const [taskType, setTaskType] = useState<'normal' | 'counting'>('normal');
+  const [showDoneTasks, setShowDoneTasks] = useState<boolean>(card.showDoneTasks);
 
   const onDelete = (taskId: string) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
@@ -41,6 +43,10 @@ const Card: FunctionComponent<{card:CardProps}> = ({card}) => {
     setIsAddingTask(isAddingTask => !isAddingTask);
   };
 
+  const handleShowDoneTasksChange = () => {
+    setShowDoneTasks(!showDoneTasks);
+  };
+
   const handleAddTask = (type: 'normal' | 'counting') => {
     setIsAddingTask(false);
     if (type === 'normal') {
@@ -59,6 +65,7 @@ const Card: FunctionComponent<{card:CardProps}> = ({card}) => {
         id: newTaskId,
         title: newTask,
         body: newTask,
+        done:false,
         type: 'normal',
         onDelete: () => onDelete(newTaskId),
       };
@@ -105,7 +112,7 @@ const Card: FunctionComponent<{card:CardProps}> = ({card}) => {
   const handleTaskTypeChange = (type: 'normal' | 'counting') => {
     setTaskType(type);
   };
-
+  console.log(tasks);
   return (
     <div className="card">
       <div className="card-title" onClick={handleTitleClick}>
@@ -119,6 +126,17 @@ const Card: FunctionComponent<{card:CardProps}> = ({card}) => {
         ) : (
           <div>{title}</div>
         )}
+      </div>
+
+      <div className="options">
+        <label>
+          <input
+            type="checkbox"
+            checked={showDoneTasks}
+            onChange={handleShowDoneTasksChange}
+          />
+          Show Done Tasks
+        </label>
       </div>
 
       <div className="add-task">
@@ -141,7 +159,7 @@ const Card: FunctionComponent<{card:CardProps}> = ({card}) => {
         {tasks.map((task) => (
           <React.Fragment key={task.id}>
             {task.type === 'normal' && 'body' in task ? (
-              <Task task={task as TaskProps} />
+               <Task task={task as TaskProps} onDelete={onDelete}  show={showDoneTasks}/>
             ) : task.type === 'counting' && 'currentCount' in task ? (
               <CountingTask task={task as CountingTaskProps} />
             ) : null}

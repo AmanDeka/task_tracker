@@ -13,6 +13,7 @@ const DailyTasksPage = () => {
     const newCard:CardProps= {
       id: cardId,
       title: `New Card ${cards.length + 1}`,
+      showDoneTasks:false,
       tasks: [],
     };
     setCards([...cards, newCard]);

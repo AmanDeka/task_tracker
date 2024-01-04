@@ -124,4 +124,8 @@
   .task-links li {
     margin-bottom: 4px;
   }
+
+  .task.hidden {
+    display: none;
+  }
   
