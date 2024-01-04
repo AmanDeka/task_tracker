@@ -8,6 +8,7 @@ export interface CountingTaskProps {
   targetCount: number;
   currentCount: number;
   type:'counting';
+  done:boolean;
   onIncrement: () => void;
   onDelete: () => void;
   onTargetCountChange: (newTargetCount: number) => void;
@@ -18,7 +19,7 @@ const CountingTask: React.FC<{ task: CountingTaskProps;show:boolean }> = ({ task
   const [title, setTitle] = useState(task.title);
   const [isEditingTargetCount, setIsEditingTargetCount] = useState(false);
   const [targetCount, setTargetCount] = useState(task.targetCount);
-  const [isTaskDone,setIsTaskDone] = useState<boolean>(false);
+  const [isTaskDone,setIsTaskDone] = useState<boolean>(task.done);
 
 
   const handleTitleClick = () => {

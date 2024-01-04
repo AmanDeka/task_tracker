@@ -84,6 +84,7 @@ const Card: FunctionComponent<{card:CardProps}> = ({card}) => {
         targetCount: 10,
         currentCount: 0,
         type: 'counting',
+        done:false,
         onIncrement: () => {
           setTasks((prevTasks) =>
             prevTasks.map((task) =>
