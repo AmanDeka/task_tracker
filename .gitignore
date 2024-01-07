@@ -2,8 +2,14 @@
 
 # dependencies
 /frontend/node_modules
+/backend/node_modules
+/backend/nodemon.json
+/backend/.env
 /frontend/.pnp
 /frontend/.pnp.js
+
+/frontend/cypress
+/frontend/cypress.config.ts
 
 # testing
 /frontend/coverage
