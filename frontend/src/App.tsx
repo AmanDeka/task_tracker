@@ -3,11 +3,15 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import DailyTasksPage from './pages/DailyTasksPage';
 import Login from './pages/login';
+import axios from 'axios';
+import useAuth from './hooks/useauth';
 
-const App = () => {
+const App =  () => {
+  const {authData} = useAuth();
+  console.log(authData);
   return (
-    <Router>
       <div className="app">
+        <p></p>
         <nav className="side-menu">
           <ul>
             <li>
@@ -26,7 +30,6 @@ const App = () => {
           </Routes>
         </main>
       </div>
-    </Router>
   );
 };
 

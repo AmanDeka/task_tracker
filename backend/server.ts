@@ -15,7 +15,9 @@ app.use(expressSession({
   secret: 'mysecret',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: true }
+  cookie: { secure: true,
+            maxAge:24 * 60 * 60 * 1000 ,
+   }
 }))
 app.use(passport.initialize());
 app.use(passport.session());
