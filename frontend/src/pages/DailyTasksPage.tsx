@@ -19,10 +19,12 @@ const DailyTasksPage = () => {
     setCards([...cards, newCard]);
   };
 
+
   return (
     <div className="daily-tasks-page">
       <h1>Daily Tasks</h1>
       <button onClick={addCard}>Add Card</button>
+
 
       <div className="cards">
         {cards.map((card) => (

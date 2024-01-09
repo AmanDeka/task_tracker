@@ -20,8 +20,7 @@ const useAuth = () => {
             withCredentials: true
           });
         const user = response.data.user;
-        setAuthData({ user });
-        console.log("Yo",user);
+        setAuthData( user );
         if (user==null) {
           // Redirect to the login page if the user is not authenticated
           navigate('/login');
