@@ -15,7 +15,8 @@ authroutes.get('/user',(req:Request,res:Response)=>{
 authroutes.post('/logout', function(req:Request, res:Response, next){
     req.logout(function(err) {
       if (err) { return next(err); }
-      res.redirect('/');
+      //res.redirect('/');
+      res.send();
     });
   });
 

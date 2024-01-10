@@ -13,7 +13,7 @@ const Logout: React.FC = () => {
     } catch (error) {
       console.error('Logout failed', error);
       // Handle error as needed
-    } finally {
+    }finally{
       // Redirect to the login page after logging out
       navigate('/');
     }
