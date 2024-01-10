@@ -29,12 +29,10 @@ passport.use(
 );
 
 passport.serializeUser((user: User, done) => {
-    console.log('Entered serial');
     done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-    console.log('Enteres deserial');
     const user = users.find((u) => u.id === id);
     done(null, user);
 });

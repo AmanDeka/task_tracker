@@ -12,5 +12,12 @@ authroutes.get('/user',(req:Request,res:Response)=>{
     else res.json({user:null});
 })
 
+authroutes.post('/logout', function(req:Request, res:Response, next){
+    req.logout(function(err) {
+      if (err) { return next(err); }
+      res.redirect('/');
+    });
+  });
+
 
 export default authroutes;
