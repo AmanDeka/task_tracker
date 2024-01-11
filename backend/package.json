@@ -16,13 +16,15 @@
     "express-session": "^1.17.3",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "pg": "^8.11.3"
   },
   "devDependencies": {
     "@types/express-session": "^1.17.10",
     "@types/node": "^20.10.7",
     "@types/passport": "^1.0.16",
     "@types/passport-local": "^1.0.38",
+    "@types/pg": "^8.10.9",
     "nodemon": "^3.0.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
