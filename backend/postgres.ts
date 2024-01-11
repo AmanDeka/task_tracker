@@ -19,30 +19,27 @@ export interface User{
 
 const TABLE_NAME = 'test_table'
 
-export const insertUser = (user:User) =>{
+export const insertUser = async (user:User) =>{
     const qry_str = `INSERT INTO ${TABLE_NAME} VALUES ('${user.id}','${user.name}','${user.email}','${user.password}')`;
 
-    client.query(qry_str,(err,res)=>{
-        if(err){
-            console.log(err);
-        }
-        else{
-            console.log("Inserted row");
-        }
-    })
+    try{
+        await client.query(qry_str,);
+        console.log('Inserted user');
+    }catch(err){
+        throw err;
+    }
 }
 
-export const getUserById = (userId:string) =>{
+export const getUserById = async (userId:string) =>{
     const qry_str = `SELECT * from ${TABLE_NAME} WHERE id = '${userId}'`;
     let user:null|User = null;
-    client.query(qry_str,(err,res)=>{
-        if(!err){
-            user = res.rows[0];
-        }
-        else{
-            console.log(err);
-        }
-    })
+    try{
+        const res = await client.query(qry_str);
+        user = res.rows[0];
+    }catch(err){
+        console.log('There was an error getting the user');
+        throw err;
+    }
     return user;  
 }
 

@@ -4,7 +4,6 @@ import path from 'path';
 import expressSession from 'express-session';
 import authroutes from './routes/authroutes';
 import passport from 'passport';
-import { insertUser,User,getUserById } from './postgres';
 
 const app = express()
 dotenv.config();
@@ -32,14 +31,6 @@ app.get('/',(req:Request,res:Response)=>{
     res.sendFile('D:/WebDev/task_tracker/frontend/build/index.html');
 })
 
-const t:User = {
-  id:'i1234rt',
-  name:'pranit',
-  email:'pranit@123',
-  password:'yello'
-}
-
-getUserById('i1234rt');
 
 
 const PORT = process.env.PORT;
