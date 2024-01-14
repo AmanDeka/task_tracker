@@ -8,10 +8,10 @@ import Signup from './pages/signup';
 import useAuth from './hooks/useauth';
 
 const App: React.FC = () => {
-  const { authData } = useAuth();
+  const user = useAuth();
   const navigate = useNavigate();
 
-  if (!authData) {
+  if (user == null) {
     // User is not authorized
     return (
       <div className="app">
@@ -47,7 +47,7 @@ const App: React.FC = () => {
           <li>
             <Link to="/logout">Logout</Link>
           </li>
-          <p>Welcome {authData.username}</p>
+          <p>Welcome {user.username}</p>
         </ul>
       </nav>
 

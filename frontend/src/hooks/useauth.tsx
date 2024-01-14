@@ -1,31 +1,26 @@
 // useAuth.ts
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import axios from 'axios';
+import { useUser } from './userContext';
 
-interface AuthData {
-  id:number;
+interface authData{
+  id:string;
   username:string;
 }
 
 const useAuth = () => {
-  const navigate = useNavigate();
-  const [authData, setAuthData] = useState<AuthData|null>(null);
+  const { user, setUser } = useUser();
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const response = await axios({
-            url:"/auth/user",
-            method:"GET",
-            withCredentials: true
-          });
-        const user = response.data.user;
-        if (user==null) {
-            // Redirect to the login page if the user is not authenticated
-            navigate('/login');
-        }
-        setAuthData( user );
+          url: "/auth/user",
+          method: "GET",
+          withCredentials: true,
+        });
+        const userData = response.data.user;
+        setUser(userData);
       } catch (error) {
         console.error('Authentication check failed', error);
         // Handle error as needed
@@ -33,9 +28,9 @@ const useAuth = () => {
     };
 
     checkAuth();
-  }, [navigate]);
+  }, [setUser]);
 
-  return { authData };
+  return user ;
 };
 
 export default useAuth;
