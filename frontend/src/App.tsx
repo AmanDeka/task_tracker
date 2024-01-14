@@ -26,13 +26,13 @@ const App: React.FC = () => {
           </ul>
         </nav>
         <main className="content">
-        <Routes>
-          <Route path="/" element={<DailyTasksPage />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-        </Routes>
-      </main>
+          <Routes>
+            <Route path="/" element={<DailyTasksPage />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
+        </main>
       </div>
     );
   }
