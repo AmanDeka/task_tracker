@@ -32,6 +32,8 @@ authroutes.post('/logout', function (req: Request, res: Response, next) {
 authroutes.post('/signup', async (req: Request, res: Response) => {
     const { name, email, password } = req.body;
 
+    console.log(name,email,password)
+
     try {
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
