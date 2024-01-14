@@ -6,7 +6,7 @@ interface UserContextProps {
 }
 
 interface User {
-    id: string;
+    id: number;
     username: string;
 }
 
@@ -19,6 +19,8 @@ const UserContext = createContext<UserContextValue | undefined>(undefined);
 
 export const UserProvider: React.FC<UserContextProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
+
+    // Use a random value as the key to trigger a re-render
 
     return (
         <UserContext.Provider value={{ user, setUser }}>

@@ -3,10 +3,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useUser } from './userContext';
 
-interface authData {
-  id: string;
-  username: string;
-}
+
 
 const useAuth = () => {
   const { user, setUser } = useUser();

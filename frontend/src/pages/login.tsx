@@ -2,43 +2,44 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useUser } from '../hooks/userContext';
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+  const { setUser } = useUser();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleLogin = async () => {
     try {
-      const response = await axios.post('/auth/password', { username, password });
-      if (response.data.user) {
-        navigate('/'); // Redirect to daily tasks after successful login
-      } else {
-        setError('Incorrect username or password');
-      }
+      const response = await axios.post('/auth/password', { username, password }, { withCredentials: true });
+      const user = response.data.user;
+      setUser(user); // Set the user in the context
+      navigate('/'); // Redirect to the home page (or any desired page)
     } catch (error) {
       console.error('Login failed', error);
-      setError('Login failed');
+      // Handle login failure
     }
   };
 
   return (
     <div>
       <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Username:</label>
+      <form>
+        <label>
+          Username:
           <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </div>
-        <div>
-          <label>Password:</label>
+        </label>
+        <br />
+        <label>
+          Password:
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </div>
-        {error && <div style={{ color: 'red' }}>{error}</div>}
-        <button type="submit">Login</button>
+        </label>
+        <br />
+        <button type="button" onClick={handleLogin}>
+          Login
+        </button>
       </form>
     </div>
   );

@@ -2,10 +2,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useUser } from '../hooks/userContext';
 
 const Logout: React.FC = () => {
     const navigate = useNavigate();
-
+    const { user, setUser } = useUser();
     const handleLogout = async () => {
         try {
             // Call your backend endpoint to clear the user's authentication status
@@ -15,6 +16,7 @@ const Logout: React.FC = () => {
             // Handle error as needed
         } finally {
             // Redirect to the login page after logging out
+            setUser(null);
             navigate('/');
         }
     };
