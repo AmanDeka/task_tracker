@@ -8,12 +8,12 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const { setUser } = useUser();
 
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('/auth/password', { username, password }, { withCredentials: true });
+      const response = await axios.post('/auth/password', { email, password }, { withCredentials: true });
       const user = response.data.user;
       setUser(user); // Set the user in the context
       navigate('/'); // Redirect to the home page (or any desired page)
@@ -28,8 +28,8 @@ const Login: React.FC = () => {
       <h2>Login</h2>
       <form>
         <label>
-          Username:
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+          Email:
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         </label>
         <br />
         <label>

@@ -36,7 +36,7 @@ const App: React.FC = () => {
     };
 
     checkAuth();
-  });
+  },[]);
 
 
   if (user == null) {

@@ -11,16 +11,16 @@ const client = new pg.Client({
 client.connect();
 
 export interface User{
-    id:string;
-    name:string;
-    email:string;
-    password:string;
+    id?:string;
+    username?:string;
+    email?:string;
+    passwordhash?:string;
 }
 
-const TABLE_NAME = 'test_table'
+const TABLE_NAME = 'users'
 
 export const insertUser = async (user:User) =>{
-    const qry_str = `INSERT INTO ${TABLE_NAME} VALUES ('${user.id}','${user.name}','${user.email}','${user.password}')`;
+    const qry_str = `INSERT INTO ${TABLE_NAME} VALUES ('${user.id}','${user.username}','${user.email}','${user.passwordhash}')`;
 
     try{
         await client.query(qry_str,);
@@ -36,6 +36,19 @@ export const getUserById = async (userId:string) =>{
     try{
         const res = await client.query(qry_str);
         user = res.rows[0];
+    }catch(err){
+        console.log('There was an error getting the user');
+        throw err;
+    }
+    return user;  
+}
+
+export const getUserByEmail = async (email:string) =>{
+    const qry_str = `SELECT * from ${TABLE_NAME} WHERE email = '${email}'`;
+    let user:User|null = null;
+    try{
+        const res = await client.query(qry_str);
+        user =  res.rows[0];
     }catch(err){
         console.log('There was an error getting the user');
         throw err;

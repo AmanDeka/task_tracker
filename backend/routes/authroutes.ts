@@ -43,9 +43,9 @@ authroutes.post('/signup', async (req: Request, res: Response) => {
 
         const user: User = {
             id: userId,
-            name: name,
+            username: name,
             email: email,
-            password: hashedPassword
+            passwordhash: hashedPassword
         }
 
         // Insert user data into PostgreSQL table

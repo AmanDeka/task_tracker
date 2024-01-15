@@ -1,40 +1,62 @@
 // auth/index.ts
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
+import { getUserByEmail, User, getUserById } from './postgres';
+import bcrypt from 'bcrypt';
 
-// Mock user data for testing
-export type User = {
-    id?: number,
-    username?: string,
-    password?: string
-};
-const users: User[] = [
-    { id: 1, username: 'user1', password: 'password1' },
-    { id: 2, username: 'user2', password: 'password2' },
-];
+
 
 
 
 passport.use(
-    new LocalStrategy((username, password, done) => {
-        console.log(username, password);
-        const user = users.find((u) => u.username === username && u.password === password);
+    new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
+        try {
+            // Fetch the user by email
+            const user = await getUserByEmail(email);
 
-        if (!user) {
-            return done(null, false, { message: 'Incorrect username or password' });
+            console.log(email,password);
+
+            if (!user) {
+                return done(null, false, { message: 'Incorrect email or password.' });
+            }
+
+            // Compare the provided password with the hashed password from the database
+            let isPasswordMatch = undefined;
+            if (user.passwordhash) {
+                isPasswordMatch = await bcrypt.compare(password, user.passwordhash);
+            }
+
+            if (!isPasswordMatch) {
+                return done(null, false, { message: 'Incorrect email or password.' });
+            }
+
+            // If the password matches, return the user object
+            return done(null, user);
+        } catch (error) {
+            return done(error);
         }
-
-        return done(null, user);
     })
 );
 
 passport.serializeUser((user: User, done) => {
+    console.log("Serialize",user.id);
     done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {
-    const user = users.find((u) => u.id === id);
-    done(null, user);
-});
+passport.deserializeUser(async (id:string, done) => {
+    try {
+      // Implement a function to fetch the user by ID from your database
+      const user = await getUserById(id);
+  
+      if (user) {
+        done(null, user);
+      } else {
+        done(null, false);
+      }
+    } catch (error) {
+      done(error);
+    }
+  });
+  
 
 export default passport;
