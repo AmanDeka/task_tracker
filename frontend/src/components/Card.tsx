@@ -1,4 +1,5 @@
 // Card.js
+//
 
 import React, { FunctionComponent, useState } from 'react';
 import Task, { TaskProps } from './Task';
@@ -57,6 +58,7 @@ const Card: FunctionComponent<{card:CardProps}> = ({card}) => {
       addCountingTask();
     }
   };
+
 
   const addNormalTask = () => {
     if (newTask.trim() !== '') {

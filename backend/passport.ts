@@ -1,7 +1,7 @@
 // auth/index.ts
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { getUserByEmail, User, getUserById } from './postgres';
+import { getUserByEmail, User, getUserById } from './models/user';
 import bcrypt from 'bcrypt';
 
 

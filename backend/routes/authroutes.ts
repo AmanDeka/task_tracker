@@ -1,7 +1,7 @@
 import express, { Response, Request } from 'express';
 import passport from '../passport';
 import bcrypt from 'bcrypt';
-import { insertUser, User } from '../postgres';
+import { insertUser, User } from '../models/user';
 
 const authroutes = express.Router();
 
