@@ -2,11 +2,21 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 
 interface SignUpFormData {
     name: string;
     email: string;
     password: string;
+}
+
+const signupUser = (formData: SignUpFormData) => {
+    const response = axios({
+        url: '/auth/signup', method: 'POST', withCredentials: true,
+        data: formData
+    })
+    return response;
 }
 
 const Signup: React.FC = () => {
@@ -16,6 +26,16 @@ const Signup: React.FC = () => {
         email: '',
         password: '',
     });
+
+    const signupMutation = useMutation({
+        mutationFn:signupUser,
+        onSuccess:()=>{
+            navigate('/');
+        },
+        onError:()=>{
+            console.log('Resgistration error');
+        }
+    })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -27,27 +47,7 @@ const Signup: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        // Assume you have a backend API endpoint for user registration
-        try {
-            const response = await fetch('/auth/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (response.ok) {
-                // Registration successful, redirect to login page
-                navigate('/login');
-            } else {
-                // Handle registration failure (e.g., display error message)
-                console.error('Registration failed');
-            }
-        } catch (error) {
-            console.error('Error during registration', error);
-        }
+        signupMutation.mutate(formData);
     };
 
     return (

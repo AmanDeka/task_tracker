@@ -7,6 +7,19 @@ import Logout from './pages/logout';
 import Signup from './pages/signup';
 import { useUser } from './hooks/userContext';
 import axios from 'axios';
+import { useQueryClient, useQuery } from '@tanstack/react-query';
+
+const getUser = () => {
+  const response = axios({ url: '/auth/user', method: 'GET', withCredentials: true, })
+    .then(data => {
+      return data.data;
+    })
+    .then(data => {
+      return data.user;
+    })
+
+  return response;
+}
 
 const App: React.FC = () => {
   const { user, setUser } = useUser();
@@ -14,29 +27,17 @@ const App: React.FC = () => {
 
   const [loading, setLoading] = useState(true);
 
+
+  const { data: quser, isSuccess:userSuccess, isError:userError } = useQuery({
+    queryKey: ['user'],
+    queryFn: getUser,
+    placeholderData:null
+  })
+
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await axios({
-          url: '/auth/user',
-          method: 'GET',
-          withCredentials: true,
-        });
+    setUser(quser);
+  }, [quser]);
 
-        const userData = response.data.user;
-        if (userData) {
-          setUser(userData);
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error('Authentication check failed', error);
-        setLoading(false);
-      }
-    };
-
-    checkAuth();
-  },[]);
 
 
   if (user == null) {

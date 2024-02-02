@@ -3,25 +3,42 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useUser } from '../hooks/userContext';
+import { useMutation ,useQueryClient} from '@tanstack/react-query';
+
+const loginUser = ({ email, password }: { email: string, password: string }) => {
+  const response = axios.post('/auth/password', { email, password }, { withCredentials: true })
+    .then((data) => {
+      return data.data;
+    }).then((data) => {
+      return data.user;
+    });
+
+  return response;
+
+}
 
 const Login: React.FC = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { setUser } = useUser();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post('/auth/password', { email, password }, { withCredentials: true });
-      const user = response.data.user;
-      setUser(user); // Set the user in the context
-      navigate('/'); // Redirect to the home page (or any desired page)
-    } catch (error) {
-      console.error('Login failed', error);
-      // Handle login failure
+  const loginMutation = useMutation({
+    mutationFn: loginUser,
+    onSuccess:(data) => {
+      queryClient.setQueryData(['user'],data);
+      navigate('/');
+    },
+
+    onError:() => {
+      console.log('login error');
     }
-  };
+  })
+
+  const handleLogin = async () => {
+    const user = loginMutation.mutate({ email, password });
+  }
 
   return (
     <div>
