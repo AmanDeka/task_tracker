@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import expressSession from 'express-session';
 import authroutes from './routes/authroutes';
+import cardRoutes from './routes/cardroutes';
 import passport from 'passport';
 
 const app = express()
@@ -25,6 +26,7 @@ app.use(passport.session());
 app.use(express.static("D:/WebDev/task_tracker/frontend/build"))
 
 app.use('/auth',authroutes);
+app.use('/data/card',cardRoutes);
 
 
 app.get('/',(req:Request,res:Response)=>{
