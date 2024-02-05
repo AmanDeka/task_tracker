@@ -7,22 +7,22 @@ import CountingTask, { CountingTaskProps } from './CountingTask';
 import '../stylesheets/Card.css';
 
 export interface CardProps{
-  id:string;
-  title:string;
-  showDoneTasks:boolean;
-  tasks:(TaskProps | CountingTaskProps)[];
+  id?:string;
+  title?:string;
+  showDoneTasks?:boolean;
+  tasks?:(TaskProps | CountingTaskProps)[];
 };
 
 
 const Card: FunctionComponent<{card:CardProps}> = ({card}) => {
   const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>(card.title);
-  const [tasks, setTasks] = useState<(TaskProps | CountingTaskProps)[]>(card.tasks);
+  const [title, setTitle] = useState<string>(card.title!);
+  const [tasks, setTasks] = useState<(TaskProps | CountingTaskProps)[]>(card.tasks!);
   const [newTask, setNewTask] = useState<string>('');
   const [taskIdCounter, setTaskIdCounter] = useState<number>(1);
   const [isAddingTask, setIsAddingTask] = useState<boolean>(false);
   const [taskType, setTaskType] = useState<'normal' | 'counting'>('normal');
-  const [showDoneTasks, setShowDoneTasks] = useState<boolean>(card.showDoneTasks);
+  const [showDoneTasks, setShowDoneTasks] = useState<boolean>(card.showDoneTasks!);
 
   const onDelete = (taskId: string) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));

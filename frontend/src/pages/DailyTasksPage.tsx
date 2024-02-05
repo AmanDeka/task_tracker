@@ -1,34 +1,39 @@
 // DailyTasksPage.js
 
 import React, { useState } from 'react';
-import Card,{CardProps} from '../components/Card';
+import Card, { CardProps } from '../components/Card';
+import { useMutation,useQueryClient ,useQuery} from '@tanstack/react-query';
+import { addCard } from '../utils/queryFunctions';
 
-const DailyTasksPage = () => {
+
+
+const DailyTasksPage: React.FC = () => {
   const [cards, setCards] = useState<CardProps[]>([]);
 
-  const addCard = () => {
-    const now = new Date();
-    const formattedDate = now.toISOString().split('T')[0]; // Get only the date part
-    const cardId = `card_${cards.length + 1}_${formattedDate}`;
-    const newCard:CardProps= {
-      id: cardId,
-      title: `New Card ${cards.length + 1}`,
-      showDoneTasks:false,
-      tasks: [],
-    };
-    setCards([...cards, newCard]);
-  };
+  const queryClient = useQueryClient();
 
+  const addTaskMutation = useMutation({
+    mutationFn: addCard,
+    onSuccess: (data) => {
+      queryClient.setQueryData(['cards','dailytaskpage'],(prevData:CardProps[])=>{
+        return [...prevData,data];
+      });
+    }
+  })
+
+  const handleAddCard = () => {
+
+  }
 
   return (
     <div className="daily-tasks-page">
       <h1>Daily Tasks</h1>
-      <button onClick={addCard}>Add Card</button>
+      <button onClick={handleAddCard}>Add Card</button>
 
 
       <div className="cards">
         {cards.map((card) => (
-          <Card card = {card as CardProps} />
+          <Card card={card as CardProps} />
         ))}
       </div>
     </div>
