@@ -1,4 +1,5 @@
-import mongoose, { Schema } from "mongoose";
+import { Schema } from "mongoose";
+import mongoose from "../mongoose";
 
 const CardSchema = new Schema({
     _id: Schema.Types.UUID,
@@ -13,18 +14,6 @@ type cardType = {
     showDoneTasks: boolean,
     userId:string
 };
-
-
-mongoose.connect(process.env.MONGODB_URL||'');
-
-const conn = mongoose.connection;
-conn.on('connected', function() {
-    console.log('database is connected successfully');
-});
-conn.on('disconnected',function(){
-    console.log('database is disconnected successfully');
-})
-
 
 const cardModel = mongoose.model('Card',CardSchema);
 

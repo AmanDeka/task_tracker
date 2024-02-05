@@ -3,16 +3,19 @@ import axios from "axios";
 
 export const addCard = () => {
     const newCard: CardProps = {
-      title: `New Card`,
-      showDoneTasks: false,
+        title: `New Card`,
+        showDoneTasks: false,
     };
     const response = axios({
-      url: '/card/insert', method: 'POST', withCredentials: true,
-      data: newCard
+        url: '/card/insert', method: 'POST', withCredentials: true,
+        data: newCard
     }).then(data => data.data).then(data => data.card);
     return response;
-  };
+};
 
-  const getAllCards = ()=>{
-    
-  }
+export const getAllCards = (pageId: string) => {
+    const response = axios({
+        url: `/all/${pageId}`, method: 'GET', withCredentials: true
+    }).then(data => data.data).then(data => data.cards);
+    return response;
+}
