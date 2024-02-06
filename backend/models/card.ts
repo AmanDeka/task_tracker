@@ -19,7 +19,7 @@ const cardModel = mongoose.model('Card',CardSchema);
 
 export const getCardsByPageId = async (pageId:string) => {
     try{
-        const cards = await cardModel.find({pageIdId:pageId})
+        const cards = await cardModel.find({pageId:pageId})
         .select({_id:1,title:1,showDoneTasks:1})
         .exec();
         return cards;
