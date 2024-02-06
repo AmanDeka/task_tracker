@@ -1,14 +1,12 @@
 // UserContext.tsx
 import { createContext, useContext, ReactNode, useState } from 'react';
+import { User } from '../utils/customTypes';
 
 interface UserContextProps {
     children: ReactNode;
 }
 
-interface User {
-    id: number;
-    username: string;
-}
+
 
 interface UserContextValue {
     user: User | null;

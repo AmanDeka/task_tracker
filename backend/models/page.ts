@@ -2,7 +2,6 @@ import { Schema } from "mongoose";
 import mongoose from "../mongoose";
 
 const PageSchema = new Schema({
-    _id: Schema.Types.UUID,
     title: String,
     userId:String,
     isDailyTasks:Boolean

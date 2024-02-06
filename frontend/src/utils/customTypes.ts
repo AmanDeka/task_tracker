@@ -31,3 +31,8 @@ export interface CardProps{
     onDelete: () => void;
     onTargetCountChange: (newTargetCount: number) => void;
   }
+
+export interface User {
+    id: string;
+    username: string;
+}

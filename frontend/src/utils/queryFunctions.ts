@@ -1,6 +1,18 @@
 import axios from "axios";
 import { CardProps,SignUpFormData } from "./customTypes";
 
+export const getUser = () => {
+    const response = axios({ url: '/auth/user', method: 'GET', withCredentials: true, })
+      .then(data => {
+        return data.data;
+      })
+      .then(data => {
+        return data.user;
+      })
+  
+    return response;
+  }
+
 
 export const addCard = () => {
     const newCard: CardProps = {
@@ -26,5 +38,19 @@ export const signupUser = (formData: SignUpFormData) => {
         url: '/auth/signup', method: 'POST', withCredentials: true,
         data: formData
     })
+    return response;
+}
+
+export const createDailyTaskPage = () => {
+    const response = axios({
+        url: '/data/page/dailytaskpage', method: 'POST', withCredentials: true,
+    }).then(data=>data.data).then(data=>data.page);
+    return response;
+}
+
+export const getDailyTaskPage = () => {
+    const response = axios({
+        url: '/data/page/dailytaskpage', method: 'GET', withCredentials: true,
+    }).then(data=>data.data).then(data=>data.page);
     return response;
 }

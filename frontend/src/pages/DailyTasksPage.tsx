@@ -8,7 +8,7 @@ import { CardProps } from '../utils/customTypes';
 
 
 
-const DailyTasksPage: React.FC = () => {
+const DailyTasksPage: React.FC<{id:string}> = ({id}) => {
   const [cards, setCards] = useState<CardProps[]>([]);
 
   const queryClient = useQueryClient();

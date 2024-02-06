@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { SignUpFormData } from '../utils/customTypes';
-import { signupUser } from '../utils/queryFunctions';
+import { signupUser ,createDailyTaskPage} from '../utils/queryFunctions';
 
 
 
@@ -19,10 +19,21 @@ const Signup: React.FC = () => {
     const signupMutation = useMutation({
         mutationFn:signupUser,
         onSuccess:()=>{
-            navigate('/');
+            createDailyTaskPageMutation.mutate();
         },
         onError:()=>{
             console.log('Resgistration error');
+        }
+    })
+
+    const createDailyTaskPageMutation = useMutation({
+        mutationFn:createDailyTaskPage,
+        retry:true,
+        onSuccess:()=>{
+            navigate('/');
+        },
+        onError:()=>{
+            console.log('could not create daily task page');
         }
     })
 

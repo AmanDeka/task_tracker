@@ -6,20 +6,42 @@ import Login from './pages/login';
 import Logout from './pages/logout';
 import Signup from './pages/signup';
 import { useUser } from './hooks/userContext';
-import axios from 'axios';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { getUser, getDailyTaskPage } from './utils/queryFunctions';
+import { User } from './utils/customTypes';
 
-const getUser = () => {
-  const response = axios({ url: '/auth/user', method: 'GET', withCredentials: true, })
-    .then(data => {
-      return data.data;
-    })
-    .then(data => {
-      return data.user;
-    })
+const LoggedIn: React.FC<{ user: User }> = ({ user }) => {
 
-  return response;
-}
+  const { data: dailyTasksPageData } = useQuery({
+    queryKey: ['page', 'dailytaskpage'],
+    queryFn: getDailyTaskPage,
+    placeholderData: null
+  })
+
+  return (
+    <div className="app">
+      <nav className="side-menu">
+        <ul>
+          <li>
+            <Link to="/">Daily Tasks</Link>
+          </li>
+          <li>
+            <Link to="/logout">Logout</Link>
+          </li>
+          <p>Welcome {user.username}</p>
+        </ul>
+      </nav>
+
+      <main className="content">
+        <Routes>
+          <Route path="/" element={<DailyTasksPage id = {dailyTasksPageData._id}/>} />
+          <Route path="/logout" element={<Logout />} />
+        </Routes>
+      </main>
+    </div>
+  );
+};
+
 
 const App: React.FC = () => {
   const { user, setUser } = useUser();
@@ -28,10 +50,10 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
 
-  const { data: quser, isSuccess:userSuccess, isError:userError } = useQuery({
+  const { data: quser, isSuccess: userSuccess, isError: userError } = useQuery({
     queryKey: ['user'],
     queryFn: getUser,
-    placeholderData:null
+    placeholderData: null
   })
 
   useEffect(() => {
@@ -65,26 +87,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="app">
-      <nav className="side-menu">
-        <ul>
-          <li>
-            <Link to="/">Daily Tasks</Link>
-          </li>
-          <li>
-            <Link to="/logout">Logout</Link>
-          </li>
-          <p>Welcome {user.username}</p>
-        </ul>
-      </nav>
-
-      <main className="content">
-        <Routes>
-          <Route path="/" element={<DailyTasksPage />} />
-          <Route path="/logout" element={<Logout />} />
-        </Routes>
-      </main>
-    </div>
+    <LoggedIn user={user} />
   );
 };
 
