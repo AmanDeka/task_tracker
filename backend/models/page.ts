@@ -16,9 +16,21 @@ type pageType = {
 
 const pageModel = mongoose.model('Page',PageSchema);
 
+export const getDailyTaskPage = async (userId:string) => {
+    try{
+        const page = await pageModel.findOne({userId:userId,isDailyTasks:true})
+        .select({_id:1,title:1,isDailyTasks:1})
+        .exec();
+        return page;
+    }
+    catch(e){
+        throw e;
+    }
+}
+
 export const getPagesByUserId = async (userId:string) => {
     try{
-        const pages = await pageModel.find({userId:userId})
+        const pages = await pageModel.find({userId:userId,isDailyTasks:false})
         .select({_id:1,title:1,isDailyTasks:1})
         .exec();
         return pages;
