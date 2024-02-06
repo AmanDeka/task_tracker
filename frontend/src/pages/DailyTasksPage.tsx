@@ -1,9 +1,10 @@
 // DailyTasksPage.js
 
 import React, { useState } from 'react';
-import Card, { CardProps } from '../components/Card';
+import Card from '../components/Card';
 import { useMutation,useQueryClient ,useQuery} from '@tanstack/react-query';
 import { addCard } from '../utils/queryFunctions';
+import { CardProps } from '../utils/customTypes';
 
 
 

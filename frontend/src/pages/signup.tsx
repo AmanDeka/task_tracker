@@ -3,21 +3,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
+import { SignUpFormData } from '../utils/customTypes';
+import { signupUser } from '../utils/queryFunctions';
 
-interface SignUpFormData {
-    name: string;
-    email: string;
-    password: string;
-}
 
-const signupUser = (formData: SignUpFormData) => {
-    const response = axios({
-        url: '/auth/signup', method: 'POST', withCredentials: true,
-        data: formData
-    })
-    return response;
-}
 
 const Signup: React.FC = () => {
     const navigate = useNavigate();

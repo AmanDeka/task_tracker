@@ -1,18 +1,8 @@
 // CountingTask.js
 
 import React, { useState ,useEffect} from 'react';
+import { CountingTaskProps } from '../utils/customTypes';
 
-export interface CountingTaskProps {
-  id: string;
-  title: string;
-  targetCount: number;
-  currentCount: number;
-  type:'counting';
-  done:boolean;
-  onIncrement: () => void;
-  onDelete: () => void;
-  onTargetCountChange: (newTargetCount: number) => void;
-}
 
 const CountingTask: React.FC<{ task: CountingTaskProps;show:boolean }> = ({ task,show }) => {
   const [isEditingTitle, setIsEditingTitle] = useState(false);

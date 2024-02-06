@@ -1,14 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import icon from "../icons/dots.png";
+import { TaskProps } from '../utils/customTypes';
 
-export interface TaskProps {
-  id: string;
-  title: string;
-  body: string;
-  type: 'normal';
-  done: boolean;
-  onDelete: (taskId: string) => void;
-}
 
 const Task: React.FC<{ task: TaskProps; show: boolean }> = ({ task, show }) => {
   const [isEditingTitle, setIsEditingTitle] = useState(false);

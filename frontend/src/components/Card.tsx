@@ -2,16 +2,12 @@
 //
 
 import React, { FunctionComponent, useState } from 'react';
-import Task, { TaskProps } from './Task';
-import CountingTask, { CountingTaskProps } from './CountingTask';
+import Task from './Task';
+import CountingTask from './CountingTask';
 import '../stylesheets/Card.css';
+import { TaskProps,CountingTaskProps,CardProps } from '../utils/customTypes';
 
-export interface CardProps{
-  id?:string;
-  title?:string;
-  showDoneTasks?:boolean;
-  tasks?:(TaskProps | CountingTaskProps)[];
-};
+
 
 
 const Card: FunctionComponent<{card:CardProps}> = ({card}) => {

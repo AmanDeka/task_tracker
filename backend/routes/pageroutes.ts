@@ -24,6 +24,30 @@ pageRoutes.get('/dailytaskpage', async (req: Request, res: Response) => {
     }
 });
 
+
+pageRoutes.post('/dailytaskpage', async (req: Request, res: Response) => {
+    try {
+        let userId: string | null = null;
+        if (req.user) {
+            if ('id' in req.user && typeof req.user.id == "string") userId = req.user.id;
+        }
+
+        if (!userId) {
+            return res.status(400).json({ success: false, error: 'Not Authenticated' });
+        }
+
+        const insertedPage = await insertPage({title:'',userId:userId,isDailyTasks:true});
+
+
+        res.status(200).json({ success: true, page:insertedPage });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, error: 'Internal Server Error' });
+    }
+});
+
+
+
 pageRoutes.get('/all', async (req: Request, res: Response) => {
     try {
         let userId: string | null = null;
